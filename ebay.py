@@ -59,7 +59,7 @@ def getpagedata(page):
         page_data.append(products)
     return page_data
 
-totalPages = 10
+totalPages = int(input())
 totaldata = []
 page = 1
 while page <= totalPages:
