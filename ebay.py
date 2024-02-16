@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 # Taking user input for the query
-query = str(input("Enter your search query: "))
+query = str(input("Enter your search query : "))
 
 # Constructing the eBay search URL with the query
 url = f'https://www.ebay.com/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw={query}&_sacat=0'
@@ -59,7 +59,7 @@ def getpagedata(page):
         page_data.append(products)
     return page_data
 
-totalPages = int(input())
+totalPages = int(input("Enter no. pages to scrap: "))
 totaldata = []
 page = 1
 while page <= totalPages:
