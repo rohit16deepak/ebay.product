@@ -62,7 +62,7 @@ def getpagedata(page):
 totalPages = 10
 totaldata = []
 page = 1
-while page < totalPages:
+while page <= totalPages:
     data = getpagedata(page)
     print("Page:", page)
     totaldata.extend(data)
@@ -70,4 +70,4 @@ while page < totalPages:
 
 # Writing data to Excel
 datatable = pd.DataFrame(totaldata)
-datatable.to_excel("productListlaptop1.xlsx", index=False)
+datatable.to_excel(f"{query}_product.xlsx", index=False)
