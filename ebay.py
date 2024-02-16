@@ -43,7 +43,7 @@ def getpagedata(page):
             ProductPrice = ProductPrice.text.strip()
         else:
             ProductPrice = 'Price not available'
-        productshiping=data.find('span',class_='s-item__location s-item__itemLocation')
+        productshiping=data.find('span',class_='s-item__itemLocation')
         if productshiping:
             productshiping=productshiping.text.strip()
         else:
