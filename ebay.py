@@ -25,7 +25,11 @@ def getpagedata(page):
             productName=productName.text.strip()
         else:
             productName='product name not available'
-        productSubtitle = data.find('div', class_='s-item__subtitle')
+        productStatus = data.find('span',class_="SECONDARY_INFO")
+        if productStatus:
+            productStatus=productStatus.text.strip()
+        else:
+            productStatus='Product subtitle not available'
         
         # Handling total rating
         ProductTotalRating = data.find('span', class_='s-item__reviews-count')
@@ -51,7 +55,7 @@ def getpagedata(page):
             productseller='seller not available'
         
         products = {'productName': productName, 
-                    'productSubtitle': productSubtitle.text.strip() if productSubtitle else 'Product subtitle not available', 
+                    'productStatus': productStatus, 
                     'ProductPrice': ProductPrice,  
                     'ProductTotalRating': ProductTotalRating,
                     'productshiping':productshiping,
