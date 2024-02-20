@@ -1,4 +1,5 @@
 import requests
+import re
 from bs4 import BeautifulSoup
 import pandas as pd
 
@@ -32,11 +33,16 @@ def getpagedata(page):
             productStatus='Product subtitle not available'
         
         # Handling total rating
-        ProductTotalRating = data.find('span', class_='s-item__reviews-count')
-        if ProductTotalRating:
-            ProductTotalRating = ProductTotalRating.text.strip()
-        else:
+        try:
+            productRatingCount  = data.find('div', class_='x-star-rating').text
+        except :
+            productRatingCount = '0'
+        try:
+            ProductTotalRating = data.find('span', class_='s-item__reviews-count').text
+        except:
             ProductTotalRating = '0'
+        productLink = data.find('a', class_='s-item__link').get('href')
+        ProductTotalRating = int(re.findall(r'^\d+', ProductTotalRating)[0])
         
         ProductPrice = data.find('span', class_='s-item__price')
         if ProductPrice:
@@ -53,17 +59,23 @@ def getpagedata(page):
             productseller=productseller.text.strip()
         else:
             productseller='seller not available'
+        if ProductPrice:
+            price = int(re.findall(r'\d+', ProductPrice)[0])
+        if price> 100 and ProductTotalRating >= 100 :
         
-        products = {'productName': productName, 
+            products = {'productName': productName, 
                     'productStatus': productStatus, 
-                    'ProductPrice': ProductPrice,  
+                    'ProductPrice': ProductPrice,
+                    'productRating':productRatingCount,  
                     'ProductTotalRating': ProductTotalRating,
                     'productshiping':productshiping,
-                    'product seller':productseller}
-        page_data.append(products)
+                    'product seller':productseller,
+                    'productLink':productLink}
+            page_data.append(products)
     return page_data
 
 totalPages = int(input("Enter no. pages to scrap: "))
+target_brands = [" Rockshox", "Shimano", "raceface"]
 totaldata = []
 page = 1
 while page <= totalPages:
